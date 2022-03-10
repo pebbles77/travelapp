@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TREK DESTINATION LISTS</title>
+    <title>ADD NEW TREK DESTINATION</title>
     <link href="https://fonts.googleapis.com/css?family=Raleway:400,600,700,800" rel='stylesheet' type='text/css'>
     <style>
       * {
@@ -299,37 +299,12 @@ a {
     {% else %}
     <a href="/register" class="right">Register</a>
     <a href="/login" class="right">Login</a>
-    {% endif %}
-    
+    {% endif %}    
   </div>
 <div class="tools">
-  <div class="search-area">
-    <input type="text" id="search" placeholder="Search" /> <button id="searchbutton">Go</button>
-  </div>
-  {% if result['logged_in_user'] %}
-  <div>
-    <button id="view" style="float: right;margin-right: 5px;" > <a href="/addTrek" style="font-weight: bold;"> Add Trek Destination </a></button>
-  </div>
-  {% endif %}
-  
+   
 </div>
 <div class="products">
-  {% for row in result['treks'] %}
-  <div class="product">
-    <div class="product-img">
-      <img src="https://placeimg.com/400/650/animals">
-    </div>
-    <div class="product-content">
-      <h3>
-        <a href="/trek/{{row.0}}">{{row.1}} - {{row.3}}</a>
-        <small>Total Days: {{row.2}}</small>
-      </h3>
-      <p class="product-text price">Rs. {{row.4}} </p>
-      <p class="product-text genre"> {{row.6}}</p>
-      <p class="product-text genre">Upvotes: {{row.5}}</p>
-    </div>
-  </div>
-  {% endfor %}
  
 </div>
 
