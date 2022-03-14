@@ -368,33 +368,60 @@ a {
     {% endif %}    
   </div>
 
-  <form action="/doAddTrek" method="POST">
+  <form action="/doAddIternary" method="POST">
     <div class="container">
-      <h1>Add New Trek Destination</h1>
+      <h1>Add Iternary</h1>
       <hr>
   
+      <label for="treks"><b>Trek Destination</b></label>
+      <select onchange="getIternaries()" name="trek_destination_id" id="treks" form="carform" required>
+        <option value="0">Select an option...</option>
+        {% for row in result['treks'] %}
+        <option value="{{row.0}}">{{row.1}}</option>
+        {% endfor %}
+      </select>
+      <br> <br>
+
+      <div id="iternaries"></div>
+      <br>
+
+      <label for="day"><b>Day</b></label>
+      <input type="text" placeholder="Enter Day" name="day" id="day" required>
+
       <label for="title"><b>Title</b></label>
-      <input type="text" placeholder="Enter Title" name="title" id="title" required>
+      <input type="text" placeholder="Enter Title" name="title" id="title" required>     
+       
+      <label for="start_place"><b>Start Place</b></label>
+      <input type="text" placeholder="Enter Start Place" name="start_place" id="start_place" required>
   
-      <label for="days"><b>Days</b></label>
-      <input type="text" placeholder="Enter Days" name="days" id="days" required>
+      <label for="end_place"><b>End Place</b></label>
+      <input type="text" placeholder="Enter End Place" name="end_place" id="end_place" required>
+
+      <label for="description"><b>Description</b></label> <br> <br>
+      <textarea rows="100" cols="50" name="description" id="description" required> </textarea> <br> <br>
   
-      <label for="difficulty"><b>Difficulty</b></label>
-      <input type="text" placeholder="Enter Difficulty" name="difficulty" id="difficulty" required>
+      <label for="duration"><b>Duration</b></label>
+      <input type="text" placeholder="Enter Duration" name="duration" id="duration" required>
   
-      <label for="total_cost"><b>Total Cost</b></label>
-      <input type="text" placeholder="Enter Total Cost" name="total_cost" id="total_cost" required>
+      <label for="cost"><b>Cost</b></label>
+      <input type="text" placeholder="Enter Cost" name="cost" id="cost" required>
   
-      <button type="submit" class="registerbtn">Add Trek Destination</button>
+      <button type="submit" class="registerbtn">Add Iternary</button>
     </div>
   </form>
 
-<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
 <script>
-    $("#view").click(function() {
-  $(".products").toggleClass("products-table");
-});
+  function getIternaries(){
+    var trekId = document.getElementById("treks").value;
+    $.ajax('/iternary/'+trekId,
+      {
+        success: function (data, status, xhr) {
+          $('#iternaries').html(data);
+        }
+      });
+  }
 </script>
 </body>
 </html>

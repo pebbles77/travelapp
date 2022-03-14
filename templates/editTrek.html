@@ -368,33 +368,30 @@ a {
     {% endif %}    
   </div>
 
-  <form action="/doAddTrek" method="POST">
+  <form action="/doUpdateTrek" method="POST">
     <div class="container">
-      <h1>Add New Trek Destination</h1>
+      <h1>Edit Trek Destination - {{result['treks'].1}} </h1>
       <hr>
   
+      <input type="hidden" value="{{result['treks'].0}}" name="trekId" >
       <label for="title"><b>Title</b></label>
-      <input type="text" placeholder="Enter Title" name="title" id="title" required>
+      <input type="text" value="{{result['treks'].1}}" name="title" id="title" required>
   
       <label for="days"><b>Days</b></label>
-      <input type="text" placeholder="Enter Days" name="days" id="days" required>
+      <input type="text" value="{{result['treks'].2}}" name="days" id="days" required>
   
       <label for="difficulty"><b>Difficulty</b></label>
-      <input type="text" placeholder="Enter Difficulty" name="difficulty" id="difficulty" required>
+      <input type="text" value="{{result['treks'].3}}" name="difficulty" id="difficulty" required>
   
       <label for="total_cost"><b>Total Cost</b></label>
-      <input type="text" placeholder="Enter Total Cost" name="total_cost" id="total_cost" required>
+      <input type="text" value="{{result['treks'].4}}" name="total_cost" id="total_cost" required>
   
-      <button type="submit" class="registerbtn">Add Trek Destination</button>
+      <button type="submit" class="registerbtn">Update Trek Destination</button>
     </div>
   </form>
 
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 
-<script>
-    $("#view").click(function() {
-  $(".products").toggleClass("products-table");
-});
-</script>
+
 </body>
 </html>

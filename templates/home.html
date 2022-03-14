@@ -121,8 +121,16 @@ body {
   <a href="/">Home</a>
   <a href="/treks">Trek Destinations</a>
   <a href="#">Search</a>
+  {% if result['logged_in_user'] %}
+  <a href="/addTrek">Add Trek Destination</a>
+  <a href="/addIternary">Add iternary</a>
   <a href="/logout" style="float: right;color: #fff;">Logout</a>
-  <a href="#" style="float: right;color: #fff;">WELCOME {{ result.1 }} </a>
+  <a href="#" style="float: right;color: #fff;">WELCOME {{ result['logged_in_user'] }} </a>
+  {% else %}
+  <a href="/register" class="right">Register</a>
+  <a href="/login" class="right">Login</a>
+  {% endif %}
+  
 </div>
 
 <div class="row">
