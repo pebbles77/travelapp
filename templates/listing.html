@@ -147,6 +147,8 @@ button:hover {
 .search-area {
   float: left;
   width: 60%;
+  margin-left: 5px;
+  margin-top: 1.5%;
 }
 .settings {
   display: none;
@@ -159,7 +161,8 @@ button:hover {
   width: auto;
   height: 47px;
 }
-#searchbutton {
+#search {
+  margin-top: 5px;
   width: 60px;
   height: 47px;
 }
@@ -306,7 +309,7 @@ a {
   </div>
 <div class="tools">
   <div class="search-area">
-    <input type="text" id="search" placeholder="Search" /> <button id="searchbutton">Go</button>
+    <input type="text" id="search" placeholder="Search" />
   </div>
   {% if result['logged_in_user'] %}
   <div>
@@ -360,6 +363,26 @@ a {
         }
       });
   });
+  
+  $('#search').keyup(function(){
+    var keyword = $('#search').val()
+    if (keyword.length >= 3){
+      $.ajax('search/treks?keyword=' + keyword,
+      {
+        success: function (data, status, xhr) {
+          $('#trek_listing').html(data);
+        }
+      });
+     }
+     if (keyword.length == 0){
+      $.ajax('/myTreks/' + 'all',
+      {
+        success: function (data, status, xhr) {
+          $('#trek_listing').html(data);
+        }
+      });
+     }
+    });
 </script>
 </body>
 </html>

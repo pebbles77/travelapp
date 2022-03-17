@@ -244,6 +244,24 @@ def getTreksByUser(param):
     cursor.close()
     return render_template('myTreks.html', result = {"treks":treks,"userId":userId})
 
+@app.route('/search/treks',)
+def search():
+    keyword = request.args.get("keyword")
+    cursor = mysql.connection.cursor()
+    searchString = "%" + keyword + "%"
+    cursor.execute(''' SELECT * FROM `trek_destinations` WHERE title LIKE %s; ''', (searchString,))
+    treks = cursor.fetchall()
+    cursor.close()
+
+    logged_in_user = None
+    if session.get('email'):
+        logged_in_user = session['email']
+    userId = None
+    if session.get('userId'):
+        userId = session.get('userId')
+    result = {"treks":treks,"logged_in_user":logged_in_user}
+    return render_template('myTreks.html', result = {"treks":treks,"userId":userId})
+
 """
 API Interfaces defined from here on out....
 """
@@ -265,7 +283,7 @@ def doRegisterAPI():
     # return render_template('login.html', result = "Registered Successfully! Please login to continue...")
     
 
-@app.route('/api/treks')
+@app.route('/rest/treks')
 def allTreksAPI():
     cursor = mysql.connection.cursor()
     cursor.execute(''' SELECT td.id as 'SNO', td.title as 'Title', td.days as 'Days', td.difficulty as 'Difficulty', td.total_cost as 'Total Cost', td.upvotes as 'Upvotes', u.full_name as 'Full Name' FROM `trek_destinations` as td join `users` as u on td.user_id = u.id; ''')
@@ -305,7 +323,7 @@ def doLoginAPI():
     else:
         return jsonify({"result": "Login Unsuccessful :( Please check your username and password ", "loggedin": False})
 
-@app.route('/api/doAddTrek', methods = ['POST'])
+@app.route('/rest/treks', methods = ['POST'])
 def doAddTrekAPI():
     logged_in_user = None
     if session.get('email'):
@@ -338,7 +356,7 @@ def __validate_token(token):
         userId = user[0]
     return userId
 
-@app.route('/api/doUpdateTrek', methods = ['PUT'])
+@app.route('/rest/treks', methods = ['PUT'])
 def doUpdateTrekAPI():
     trekId = request.json['trekId']
     title = request.json['title']
@@ -357,7 +375,7 @@ def doUpdateTrekAPI():
 
     return jsonify({"message": "Trek has been updated successfully :)"})
 
-@app.route('/api/doDeleteTrek', methods = ['DELETE'])
+@app.route('/rest/treks', methods = ['DELETE'])
 def doDeleteTrekAPI():
     trekId = request.json['trekId']
     token = request.json['token'] or None
@@ -373,5 +391,21 @@ def doDeleteTrekAPI():
     cursor.close()
 
     return jsonify({"message": "Trek has been deleted successfully :)"})
+
+@app.route('/api/treks/search',)
+def searchAPI():
+    keyword = request.args.get("keyword")
+    cursor = mysql.connection.cursor()
+    searchString = "%" + keyword + "%"
+    cursor.execute(''' SELECT * FROM `trek_destinations` WHERE title LIKE %s; ''', (searchString,))
+    treks = cursor.fetchall()
+    cursor.close()
+
+    logged_in_user = None
+    if session.get('email'):
+        logged_in_user = session['email']
+
+    result = {"treks":treks,"logged_in_user":logged_in_user}
+    return jsonify(result)
 
 app.run(debug = True)
